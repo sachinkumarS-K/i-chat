@@ -18,7 +18,7 @@ io.on("connection", (socket) => {
 
   socket.on("setup", (userData) => {
     socket.join(userData._id);
-    socket.emit("connected");
+    socket.emit("connection");
   });
   socket.on("disconnect", () => {
     console.log("client dissconnected".america.strikethrough);
@@ -27,6 +27,11 @@ io.on("connection", (socket) => {
   socket.on("join chat", (room) => {
     socket.join(room);
     console.log("User joined Room : ", room);
+  });
+
+  socket.on("typing", (room) => socket.in(room).emit("typing"));
+  socket.on("stop typing", (room) => {
+    socket.in(room).emit("stop typing");
   });
 
   socket.on("new message", (newMessage) => {
