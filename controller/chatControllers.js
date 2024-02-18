@@ -72,7 +72,6 @@ const fetchChats = async (req, res) => {
       .populate("groupAdmin", "-password")
       .populate("latestMessage")
       .sort({ isGroupChat: -1 });
-
     chat = await User.populate(chat, {
       path: "latestMessage.sender",
       select: "name pic email",

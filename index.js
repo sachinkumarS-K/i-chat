@@ -7,7 +7,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "https://talkandhub.vercel.app",
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -20,13 +20,17 @@ io.on("connection", (socket) => {
     socket.join(userData._id);
     socket.emit("connection");
   });
-  socket.on("disconnect", () => {
-    console.log("client dissconnected".america.strikethrough);
+  socket.off("setup", () => {
+    console.log("USER DISCONNECTED");
+    socket.leave(userData._id);
   });
 
   socket.on("join chat", (room) => {
     socket.join(room);
     console.log("User joined Room : ", room);
+  });
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
   });
 
   socket.on("typing", (room) => socket.in(room).emit("typing"));
